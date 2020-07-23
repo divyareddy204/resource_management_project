@@ -24,6 +24,7 @@ ALLOWED_HOSTS = [
     "ib-miniprojects-backend-beta.apigateway.in",
     "ib-miniprojects-backend-gamma.apigateway.in",
     "127.0.0.1",
+    "*",
     "localhost"
 ]
 
@@ -72,7 +73,7 @@ from ib_common.logger.log_custom_formatter import LogCustomFormatter
 
 LOGGING = {
     'version': 1,
-    'disable_existing_loggers': True,
+    'disable_existing_loggers': False,
     'filters': {
         'request_id': {
             '()': 'log_request_id.filters.RequestIDFilter'
@@ -337,3 +338,9 @@ TEST_RUNNER = 'snapshottest.django.TestRunner'
 MOCK_X_IB_REQUEST_ID = True
 
 STAGE = os.environ.get("STAGE", "local")
+
+DEFAULT_OAUTH_APPLICATION_NAME = "resource_management"
+DEFAULT_OAUTH_CLIENT_ID = ""
+DEFAULT_OAUTH_CLIENT_SECRET = ""
+DEFAULT_OAUTH_SCOPES = "read write superuser"
+DEFAULT_ACCESS_TOKEN_EXPIRY_IN_SECONDS = 1000000000

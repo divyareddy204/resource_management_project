@@ -1,0 +1,266 @@
+{
+   "swagger":"2.0",
+   "host":"127.0.0.1:8080",
+   "basePath":"/api/",
+   "info":{
+      "version":"1.0.0",
+      "title":"Simple API",
+      "description":"A simple API to learn how to write OpenAPI Specification"
+   },
+   "schemes":[
+      "https",
+      "http"
+   ],
+   "consumes":[
+      "application/json"
+   ],
+   "produces":[
+      "application/json"
+   ],
+   "securityDefinitions":{
+      "oauth":{
+         "tokenUrl":"http://auth.ibtspl.com/oauth2/",
+         "flow":"password",
+         "scopes":{
+            "read":"read users",
+            "write":"create users",
+            "update":"update users",
+            "delete":"delete users",
+            "superuser":"super user permission"
+         },
+         "type":"oauth2"
+      }
+   },
+   "definitions":{
+      "UserDetails":{
+         "type":"object",
+         "properties":{
+            "username":{
+               "type":"string"
+            },
+            "password":{
+               "type":"string"
+            }
+         },
+         "required":[
+            "username",
+            "password"
+         ]
+      },
+      "ResourceDetails":{
+         "type":"object",
+         "properties":{
+            "name":{
+               "type":"string"
+            },
+            "description":{
+               "type":"string"
+            },
+            "thumbnail":{
+               "type":"string"
+            },
+            "link":{
+               "type":"string"
+            }
+         },
+         "required":[
+            "name",
+            "description",
+            "thumbnail",
+            "link"
+         ]
+      },
+      "UserProfileDetails":{
+         "type":"object",
+         "properties":{
+            "id":{
+               "type":"integer"
+            },
+            "name":{
+               "type":"string"
+            },
+            "job_role":{
+               "type":"string"
+            },
+            "department":{
+               "type":"string"
+            },
+            "date_of_birth":{
+               "type":"string"
+            },
+            "gender":{
+               "type":"string"
+            },
+            "profile_pic":{
+               "type":"string"
+            }
+         },
+         "required":[
+            "id",
+            "name",
+            "job_role",
+            "department",
+            "date_of_birth",
+            "gender",
+            "profile_pic"
+         ]
+      },
+      "UserLoginResponse":{
+         "type":"object",
+         "properties":{
+            "user_id":{
+               "type":"integer"
+            },
+            "access_token":{
+               "type":"string"
+            },
+            "refresh_token":{
+               "type":"string"
+            },
+            "expires_in":{
+               "type":"string"
+            },
+            "is_admin":{
+               "type":"boolean"
+            }
+         },
+         "required":[
+            "user_id",
+            "access_token",
+            "refresh_token",
+            "expires_in",
+            "is_admin"
+         ]
+      }
+   },
+   "parameters":{
+      "ValidateUserParameters":{
+         "name":"user",
+         "in":"body",
+         "description":"Validate user details.",
+         "schema":{
+            "$ref":"#/definitions/UserDetails"
+         }
+      },
+      "UserProfileParameters":{
+         "name":"user",
+         "in":"body",
+         "description":"Create user Profile.",
+         "schema":{
+            "$ref":"#/definitions/UserProfileDetails"
+         }
+      }
+   },
+   "responses":{
+      "ValidateUserResponse":{
+         "description":"User Details Validated",
+         "schema":{
+            "$ref":"#/definitions/UserLoginResponse"
+         }
+      },
+      "ValidationResponses":{
+         "description":"Update Feedback Failure Response",
+         "schema":{
+            "type":"object",
+            "properties":{
+               "response":{
+                  "type":"string"
+               },
+               "http_status_code":{
+                  "type":"integer"
+               },
+               "res_status":{
+                  "type":"string",
+                  "enum":[
+                     "INVALID_USERNAME",
+                     "INVALID_PASSWORD"
+                  ]
+               }
+            },
+            "required":[
+               "response",
+               "http_status_code",
+               "res_status"
+            ]
+         }
+      },
+      "UserProfileResponse":{
+         "description":"User Profile Details",
+         "schema":{
+            "$ref":"#/definitions/UserProfileDetails"
+         }
+      }
+   },
+   "paths":{
+      "/signup/v1":{
+         "post":{
+            "operationId":"user_signup",
+            "summary":"Validate User Signup Details",
+            "description":"Store user details.This api is not idempotent.",
+            "parameters":[
+               {
+                  "$ref":"#/parameters/ValidateUserParameters"
+               }
+            ],
+            "responses":{
+               "201":{
+                  "description":"User created successfully"
+               },
+               "400":{
+                  "$ref":"#/responses/ValidationResponses"
+               }
+            }
+         }
+      },
+      "/login/v1":{
+         "post":{
+            "operationId":"user_login",
+            "summary":"Validate User Login Details",
+            "description":"Provide access to the user given valid details in login, This api is not idempotent.",
+            "parameters":[
+               {
+                  "$ref":"#/parameters/ValidateUserParameters"
+               }
+            ],
+            "responses":{
+               "200":{
+                  "$ref":"#/responses/ValidateUserResponse"
+               },
+               "404":{
+                  "$ref":"#/responses/ValidationResponses"
+               }
+            }
+         }
+      },
+      "/user/profile/v1":{
+         "put":{
+            "operationId":"update_user_profile",
+            "summary":"Updates User Profile",
+            "description":"update the user profile with the given details, This api is not idempotent.",
+            "parameters":[
+               {
+                  "$ref":"#/parameters/UserProfileParameters"
+               }
+            ],
+            "responses":{
+               "201":{
+                  "description":"User Profile updated successfully"
+               }
+            }
+         },
+         "get":{
+            "operationId":"get_user_profile",
+            "summary":"Get User Profile Details",
+            "description":"Provide access to the user to get user profile, This api is not idempotent.",
+            "parameters":[
+
+            ],
+            "responses":{
+               "200":{
+                  "$ref":"#/responses/UserProfileResponse"
+               }
+            }
+         }
+      }
+   }
+}

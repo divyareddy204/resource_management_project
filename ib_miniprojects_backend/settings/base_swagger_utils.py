@@ -18,7 +18,10 @@ from django_swagger_utils.drf_server.utils.general.import_app_settings import \
 
 THIRD_PARTY_APPS = []
 APPS = [
+    "resource_management",
+    "resource_management_auth"
 ]
+
 
 INSTALLED_APPS += THIRD_PARTY_APPS
 INSTALLED_APPS += APPS
@@ -47,7 +50,7 @@ from django_swagger_utils.drf_server.utils.decorator.getPrivateKeyFromClientKeyR
 
 SWAGGER_UTILS = {
     "DEFAULTS": {
-        "REQUEST_WRAPPING_REQUIRED": True,
+        "REQUEST_WRAPPING_REQUIRED": False,
         "REQUEST_ENCRYPTION_REQUIRED": False,
         "GET_CLIENT_KEY_DETAILS_FUNCTION": getPrivateKeyFromClientKeyRelatedDetails,
         "GET_DECRYPTED_DATA_FUNCTION": getDecryptedData,
@@ -60,9 +63,12 @@ SWAGGER_UTILS = {
         }
     },
     "APPS": {
+        "resource_management": {},
+        "resource_management_auth": {}
     },
     "HOST": os.environ.get('APIGATEWAY_ENDPOINT', '127.0.0.1:8000'),
 }
+AUTH_USER_MODEL = "resource_management_auth.User"
 
 API_KEY_AUTHENTICATION_CLASS = \
     "ib_miniprojects_backend.common.authentication.APIKeyAuthentication"
