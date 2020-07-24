@@ -24,10 +24,10 @@ class PresenterImplementation(PresenterInterface):
         import json
         data ={
             "response": INVALID_USER_NAME[0],
-            "http_status_code": 400,
+            "http_status_code": 404,
             "res_status": INVALID_USER_NAME[1]
         }
-        #response_object = response.HttpResponse(data, 400)
+        #response_object = response.HttpResponse(data, 404)
         return data
 
     def raise_exception_for_invalid_password(self) -> response.HttpResponse:
@@ -36,8 +36,8 @@ class PresenterImplementation(PresenterInterface):
         import json
         data = {
             "response": INVALID_PASSWORD[0],
-            "http_status_code": 400,
+            "http_status_code": 404,
             "res_status": INVALID_PASSWORD[1]
         }
-        #response_object = response.HttpResponse(data, 400)
+        #response_object = response.HttpResponse(data, 404)
         return data

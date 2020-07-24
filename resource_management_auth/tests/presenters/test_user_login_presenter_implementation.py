@@ -86,7 +86,7 @@ class TestPresenterImplementation:
             'access_token': 'ghkddddddddd',
             'refresh_token': 'fdhhhhhhh',
             'expires_in': '2025,12,5',
-            "is_admin": None
+            "is_admin": False
         }
         oauth_storage = create_autospec(OAuth2SQLStorage)
         service = create_autospec(OAuthUserAuthTokensService(oauth2_storage=oauth_storage))
@@ -106,4 +106,4 @@ class TestPresenterImplementation:
         print("**********************", result)
         print(result)
         assert result == expected_output
-        #snapshot.assert_match(result, "invalid_password")
+        #snapshot.assert_match(result, "accesstokendetails")
