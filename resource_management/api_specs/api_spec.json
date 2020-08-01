@@ -1,212 +1,572 @@
 {
-        "swagger": "2.0",
-        "host": "127.0.0.1:8000",
-        "basePath": "/api/resource_management/",
-        "info": {
-            "version": "1.0.0",
-            "title": "Simple API",
-            "description": "A simple API to learn how to write OpenAPI Specification"
-        },
-        "schemes": [
-            "http"
-        ],
-        "consumes": [
-            "application/json"
-        ],
-        "produces": [
-            "application/json"
-        ],
-        "securityDefinitions": {
-            "oauth": {
-                "tokenUrl": "http://auth.ibtspl.com/oauth2/",
-                "flow": "password",
-                "scopes": {
-                    "read": "read users",
-                    "write": "create users",
-                    "update": "update users",
-                    "delete": "delete users"
-                },
-                "type": "oauth2"
-            }
-        },
-        "security": [],
-        "definitions": {
-            "TodoId": {
-                "type": "object",
-                "properties": {
-                    "id": {
-                        "type": "integer"
-                    }
-                }
+   "swagger":"2.0",
+   "host":"127.0.0.1:8000",
+   "basePath":"/api/",
+   "info":{
+      "version":"1.0.0",
+      "title":"Simple API",
+      "description":"A simple API to learn how to write OpenAPI Specification"
+   },
+   "schemes":[
+      "https",
+      "http"
+   ],
+   "consumes":[
+      "application/json"
+   ],
+   "produces":[
+      "application/json"
+   ],
+   "securityDefinitions":{
+      "oauth":{
+         "tokenUrl":"http://auth.ibtspl.com/oauth2/",
+         "flow":"password",
+         "scopes":{
+            "read":"read users",
+            "write":"create users",
+            "update":"update users",
+            "delete":"delete users",
+            "superuser":"super user permission"
+         },
+         "type":"oauth2"
+      }
+   },
+   "definitions":{
+      "ResourceDetails":{
+         "type":"object",
+         "properties":{
+            "resource_name":{
+               "type":"string"
             },
-            "BasicTodo": {
-                "type": "object",
-                "properties": {
-                    "description": {
-                        "type": "string"
-                    },
-                    "is_completed": {
-                        "type": "boolean"
-                    },
-                    "remind_at": {
-                        "type": "string"
-                    }
-                },
-                "required": [
-                    "description"
-                ]
+            "resource_pic_url":{
+               "type":"string"
             },
-            "Todo": {
-                "allOf": [
-                    {
-                        "$ref": "#/definitions/BasicTodo"
-                    },
-                    {
-                        "$ref": "#/definitions/TodoId"
-                    }
-                ]
-            }
-        },
-        "parameters": {
-            "TodoId": {
-                "description": "todo id",
-                "in": "path",
-                "name": "id",
-                "required": true,
-                "type": "integer"
+            "resource_link":{
+               "type":"string"
             },
-            "BasicTodo": {
-                "description": "Todo Parameter",
-                "in": "body",
-                "name": "todo",
-                "required": true,
-                "schema": {
-                    "$ref": "#/definitions/BasicTodo"
-                }
-            }
-        },
-        "responses": {
-            "SuccessResponse": {
-                "description": "success response"
-            }
-        },
-        "paths": {
-            "/todos/": {
-                "get": {
-                    "summary": "Get all todos",
-                    "description": "Returns a list containing all todos.",
-                    "operationId": "get_todos",
-                    "security": [
-                        {
-                            "oauth": [
-                                "read"
-                            ]
-                        }
-                    ],
-                    "responses": {
-                        "200": {
-                            "description": "A list of todos",
-                            "schema": {
-                                "type": "array",
-                                "items": {
-                                    "$ref": "#/definitions/Todo"
-                                }
-                            }
-                        }
-                    }
-                },
-                "post": {
-                    "summary": "create a todo",
-                    "description": "Create a todo",
-                    "operationId": "create_todo",
-                    "security": [
-                        {
-                            "oauth": [
-                                "write"
-                            ]
-                        }
-                    ],
-                    "parameters": [
-                        {
-                            "$ref": "#/parameters/BasicTodo"
-                        }
-                    ],
-                    "responses": {
-                        "200": {
-                            "description": "create a todo",
-                            "schema": {
-                                "$ref": "#/definitions/TodoId"
-                            }
-                        }
-                    }
-                }
+            "resource_service":{
+               "type":"string"
             },
-            "/todos/{id}/": {
-                "parameters": [
-                    {
-                        "$ref": "#/parameters/TodoId"
-                    }
-                ],
-                "get": {
-                    "summary": "Get a todo",
-                    "description": "Returns a todo.",
-                    "operationId": "get_todo",
-                    "security": [
-                        {
-                            "oauth": [
-                                "read"
-                            ]
-                        }
-                    ],
-                    "responses": {
-                        "200": {
-                            "description": "A todo",
-                            "schema": {
-                                "$ref": "#/definitions/Todo"
-                            }
-                        }
-                    }
-                },
-                "put": {
-                    "parameters": [
-                        {
-                            "$ref": "#/parameters/BasicTodo"
-                        }
-                    ],
-                    "summary": "Updates a todo",
-                    "description": "Updates a todo.",
-                    "operationId": "update_todo",
-                    "security": [
-                        {
-                            "oauth": [
-                                "update"
-                            ]
-                        }
-                    ],
-                    "responses": {
-                        "200": {
-                            "$ref": "#/responses/SuccessResponse"
-                        }
-                    }
-                },
-                "delete": {
-                    "summary": "Deletes a todo",
-                    "description": "Deletes a todo.",
-                    "operationId": "delete_todo",
-                    "security": [
-                        {
-                            "oauth": [
-                                "delete"
-                            ]
-                        }
-                    ],
-                    "responses": {
-                        "200": {
-                            "$ref": "#/responses/SuccessResponse"
-                        }
-                    }
-                }
+            "description":{
+               "type":"string"
             }
-        }
-    }
-    
+         },
+         "required":[
+            "resource_name",
+            "resource_link",
+            "resource_pic_url",
+            "resource_service",
+            "description"
+         ]
+      },
+      "ItemDetails":{
+         "type":"object",
+         "properties":{
+            "item_name":{
+               "type":"string"
+            },
+            "resource_name":{
+               "type":"string"
+            },
+            "item_link":{
+               "type":"string"
+            },
+            "description":{
+               "type":"string"
+            }
+         },
+         "required":[
+            "resource_name",
+            "item_link",
+            "item_name",
+            "description"
+         ]
+      },
+      "ListOfIds":{
+         "type":"array",
+         "items":{
+            "type":"integer"
+         }
+      },
+      "ItemId":{
+         "type":"object",
+         "properties":{
+            "item_id":{
+               "type":"integer"
+            }
+         },
+         "required":[
+            "item_id"
+         ]
+      },
+      "CompleteItemDetails":{
+         "allOf":[
+            {
+               "$ref":"#/definitions/ItemId"
+            },
+            {
+               "$ref":"#/definitions/ItemDetails"
+            }
+         ]
+      },
+      "ItemDetailsList":{
+         "type":"array",
+         "items":{
+            "$ref":"#/definitions/CompleteItemDetails"
+         }
+      },
+      "CompleteResourceDetails":{
+         "type":"object",
+         "properties":{
+            "resource_id":{
+               "type":"integer"
+            },
+            "resource_name":{
+               "type":"string"
+            },
+            "resource_pic_url":{
+               "type":"string"
+            },
+            "resource_link":{
+               "type":"string"
+            },
+            "resource_service":{
+               "type":"string"
+            },
+            "description":{
+               "type":"string"
+            }
+         },
+         "required":[
+            "resource_id",
+            "resource_name",
+            "resource_link",
+            "resource_pic_url",
+            "resource_service",
+            "description"
+         ]
+      },
+      "ResourceDetailsList":{
+         "type":"array",
+         "items":{
+            "$ref":"#/definitions/CompleteResourceDetails"
+         }
+      }
+   },
+   "parameters":{
+      "CreateResourceParameters":{
+         "name":"resource",
+         "in":"body",
+         "description":"Validate resource details.",
+         "schema":{
+            "$ref":"#/definitions/ResourceDetails"
+         }
+      },
+      "CreateItemParameters":{
+         "name":"item",
+         "in":"body",
+         "description":"Validate item details.",
+         "schema":{
+            "$ref":"#/definitions/ItemDetails"
+         }
+      },
+      "GetItemsParameters":{
+         "name":"items",
+         "in":"body",
+         "description":"get items belongs to given resource",
+         "schema":{
+            "type":"object",
+            "properties":{
+               "resource_id":{
+                  "type":"integer"
+               }
+            }
+         }
+      },
+      "DeleteResourceParameters":{
+         "name":"resource",
+         "in":"body",
+         "description":"delete the given resource",
+         "schema":{
+            "type":"object",
+            "properties":{
+               "resource_ids":{
+                  "$ref":"#/definitions/ListOfIds"
+               }
+            }
+         }
+      },
+      "DeleteItemParameters":{
+         "name":"item",
+         "in":"body",
+         "description":"delete given items",
+         "schema":{
+            "type":"object",
+            "properties":{
+               "item_ids":{
+                  "$ref":"#/definitions/ListOfIds"
+               }
+            }
+         }
+      },
+      "UpdateResourceParameters":{
+         "name":"resource",
+         "in":"body",
+         "description":"update the given resource details",
+         "schema":{
+            "$ref":"#/definitions/CompleteResourceDetails"
+         }
+      },
+      "UpdateItemParameters":{
+         "name":"item",
+         "in":"body",
+         "description":"update the given item details",
+         "schema":{
+            "$ref":"#/definitions/CompleteItemDetails"
+         }
+      }
+   },
+   "responses":{
+      "ResourceValidationResponse":{
+         "description":"Resources not found, please give valid resource",
+         "schema":{
+            "type":"object",
+            "properties":{
+               "response":{
+                  "type":"string"
+               },
+               "http_status_code":{
+                  "type":"integer"
+               },
+               "res_status":{
+                  "type":"string",
+                  "enum":[
+                     "INVALID_RESOURCE_IDS"
+                  ]
+               }
+            },
+            "required":[
+               "response",
+               "http_status_code",
+               "res_status"
+            ]
+         }
+      },
+      "ItemValidationResponse":{
+         "description":"items not found, please give valid item",
+         "schema":{
+            "type":"object",
+            "properties":{
+               "response":{
+                  "type":"string"
+               },
+               "http_status_code":{
+                  "type":"integer"
+               },
+               "res_status":{
+                  "type":"string",
+                  "enum":[
+                     "INVALID_ITEM_IDS"
+                  ]
+               }
+            },
+            "required":[
+               "response",
+               "http_status_code",
+               "res_status"
+            ]
+         }
+      },
+      "DuplicateResourceValidationResponse":{
+         "description":"duplicate resource given, please give valid resource",
+         "schema":{
+            "type":"object",
+            "properties":{
+               "response":{
+                  "type":"string"
+               },
+               "http_status_code":{
+                  "type":"integer"
+               },
+               "res_status":{
+                  "type":"string",
+                  "enum":[
+                     "DUPLICATE_RESOURCE_IDS"
+                  ]
+               }
+            },
+            "required":[
+               "response",
+               "http_status_code",
+               "res_status"
+            ]
+         }
+      },
+      "DuplicateItemValidationResponse":{
+         "description":"duplicate item given, please give valid item",
+         "schema":{
+            "type":"object",
+            "properties":{
+               "response":{
+                  "type":"string"
+               },
+               "http_status_code":{
+                  "type":"integer"
+               },
+               "res_status":{
+                  "type":"string",
+                  "enum":[
+                     "DUPLICATE_ITEM_IDS"
+                  ]
+               }
+            },
+            "required":[
+               "response",
+               "http_status_code",
+               "res_status"
+            ]
+         }
+      },
+      "ValidateResource":{
+         "description":"Duplicate resource name given, please give valid resource",
+         "schema":{
+            "type":"object",
+            "properties":{
+               "response":{
+                  "type":"string"
+               },
+               "http_status_code":{
+                  "type":"integer"
+               },
+               "res_status":{
+                  "type":"string",
+                  "enum":[
+                     "INVALID_RESOURCE_NAME"
+                  ]
+               }
+            },
+            "required":[
+               "response",
+               "http_status_code",
+               "res_status"
+            ]
+         }
+      },
+      "GetResourceDetailsResponse":{
+         "description":"successfully get resource Details Response",
+         "schema":{
+            "$ref":"#/definitions/ResourceDetailsList"
+         }
+      },
+      "GetItemDetailsResponse":{
+         "description":"successfully get item details Response",
+         "schema":{
+            "$ref":"#/definitions/ItemDetailsList"
+         }
+      }
+   },
+   "paths":{
+      "/resource_details/v1/":{
+         "post":{
+            "operationId":"create_resource",
+            "summary":"create resource given valid details",
+            "description":"Creates the resource, This api is not idempotent.",
+            "security":[
+               {
+                  "oauth":[
+                     "superuser"
+                  ]
+               }
+            ],
+            "parameters":[
+               {
+                  "$ref":"#/parameters/CreateResourceParameters"
+               }
+            ],
+            "responses":{
+               "200":{
+                  "description":"resource created successfully"
+               },
+               "400":{
+                  "$ref":"#/responses/ValidateResource"
+               }
+            }
+         },
+         "get":{
+            "operationId":"get_resource_details",
+            "summary":"get list of resources",
+            "description":"get all resources in the list, This api is not idempotent.",
+            "security":[
+               {
+                  "oauth":[
+                     "superuser"
+                  ]
+               }
+            ],
+            "parameters":[
+
+            ],
+            "responses":{
+               "200":{
+                  "$ref":"#/responses/GetResourceDetailsResponse"
+               }
+            }
+         },
+         "put":{
+            "operationId":"update_resource_details",
+            "summary":"updating resource details",
+            "description":"update the given resource details. This api is not idempotent.",
+            "security":[
+               {
+                  "oauth":[
+                     "superuser"
+                  ]
+               }
+            ],
+            "parameters":[
+               {
+                  "$ref":"#/parameters/UpdateResourceParameters"
+               }
+            ],
+            "responses":{
+               "200":{
+                  "description":"updated successfully"
+               },
+               "404":{
+                  "$ref":"#/responses/ResourceValidationResponse"
+               }
+            }
+         },
+         "delete":{
+            "operationId":"delete_resource",
+            "summary":"delete given resource",
+            "description":"delete the given resource. This api is not idempotent.",
+            "security":[
+               {
+                  "oauth":[
+                     "superuser"
+                  ]
+               }
+            ],
+            "parameters":[
+               {
+                  "$ref":"#/parameters/DeleteResourceParameters"
+               }
+            ],
+            "responses":{
+               "200":{
+                  "description":"deleted successfully"
+               },
+               "404":{
+                  "$ref":"#/responses/ResourceValidationResponse"
+               },
+               "400":{
+                  "$ref":"#/responses/DuplicateResourceValidationResponse"
+               }
+            }
+         }
+      },
+      "/resources/item_details/v1":{
+         "post":{
+            "operationId":"create_item",
+            "summary":"create item given valid details",
+            "description":"Creates an item in the given resource, This api is not idempotent.",
+            "security":[
+               {
+                  "oauth":[
+                     "superuser"
+                  ]
+               }
+            ],
+            "parameters":[
+               {
+                  "$ref":"#/parameters/CreateItemParameters"
+               }
+            ],
+            "responses":{
+               "200":{
+                  "description":"item created successfully"
+               },
+               "404":{
+                  "$ref":"#/responses/ValidateResource"
+               }
+            }
+         },
+         "delete":{
+            "operationId":"delete_items",
+            "summary":"delete given items",
+            "description":"delete the given list of items. This api is not idempotent.",
+            "security":[
+               {
+                  "oauth":[
+                     "superuser"
+                  ]
+               }
+            ],
+            "parameters":[
+               {
+                  "$ref":"#/parameters/DeleteItemParameters"
+               }
+            ],
+            "responses":{
+               "200":{
+                  "description":"deleted successfully"
+               },
+               "404":{
+                  "$ref":"#/responses/ItemValidationResponse"
+               },
+               "400":{
+                  "$ref":"#/responses/DuplicateItemValidationResponse"
+               }
+            }
+         },
+         "get":{
+            "operationId":"get_item_details",
+            "summary":"get list of items",
+            "description":"get all items in the list, This api is not idempotent.",
+            "security":[
+               {
+                  "oauth":[
+                     "superuser"
+                  ]
+               }
+            ],
+            "parameters":[
+               {
+                  "$ref":"#/parameters/GetItemsParameters"
+               }
+            ],
+            "responses":{
+               "200":{
+                  "$ref":"#/responses/GetItemDetailsResponse"
+               },
+               "404":{
+                  "$ref":"#/responses/ValidateResource"
+               }
+            }
+         },
+         "put":{
+            "operationId":"update_item_details",
+            "summary":"updating item details",
+            "description":"update the given item details. This api is not idempotent.",
+            "security":[
+               {
+                  "oauth":[
+                     "superuser"
+                  ]
+               }
+            ],
+            "parameters":[
+               {
+                  "$ref":"#/parameters/UpdateItemParameters"
+               }
+            ],
+            "responses":{
+               "200":{
+                  "description":"updated successfully"
+               }
+            }
+         }
+      }
+   }
+}

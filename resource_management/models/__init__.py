@@ -1,4 +1,3 @@
-__all__ = []
 
 # class DummyModel(AbstractDateTimeModel):
 #     """
@@ -17,3 +16,5 @@ __all__ = []
 #         return "<DummyModel: {key}-{value}>".format(key=self.key,
 #                                                     value=self.value)
 #
+from resource_management.models.resource import Resource
+__all__ = ["Resource"]

@@ -1,17 +1,25 @@
 from abc import ABC
 from abc import abstractmethod
+from typing import List
+
+from resource_management.interactors.storages.dtos import CompleteResourceDetailsDTO
 
 
 class PresenterInterface(ABC):
 
     @abstractmethod
-    def get_create_post_response(self, post_id: int):
+    def raise_exception_for_duplicate_resource_name(self):
         pass
 
     @abstractmethod
-    def raise_invalid_post_id_exception(self):
+    def raise_exception_for_invalid_resource_ids(self, err):
         pass
 
     @abstractmethod
-    def get_create_comment_response(self, comment_id: int):
+    def raise_exception_for_duplicate_resource_ids(self, err):
+        pass
+
+    @abstractmethod
+    def get_resource_details_response(self,
+        resource_details_dtos_list: List[CompleteResourceDetailsDTO]) -> List[dict]:
         pass

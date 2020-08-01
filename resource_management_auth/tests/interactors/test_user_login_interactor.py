@@ -13,7 +13,6 @@ user_auth_dto= UserAuthTokensDTO(
     expires_in="2025,12,5"
 )
 
-@pytest.mark.django_db
 class TestUserLoginInteractor:
 
     @pytest.fixture
